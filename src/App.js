@@ -1,25 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: [],
+    }
+  }
+
+  addTodo(newTodo) {
+    const todos = this.state.todos;
+    todos.push(newTodo);
+    this.setState({todos: todos})
+  }
+
+  deleteTodo(index) {
+    const todos = this.state.todos;
+    todos.splice(index, 1);
+    this.setState({todos: todos});
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <TodoForm add={this.addTodo.bind(this)} />
+        <TodoList todos={this.state.todos} del={this.deleteTodo.bind(this)} />
       </div>
     );
   }
