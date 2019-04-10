@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addTodo } from '../actions/todoActions';
 
 class TodoForm extends Component {
   constructor(props) {
@@ -14,9 +16,9 @@ class TodoForm extends Component {
     });
   }
 
-  addTodo() {
+  clickAddTodo() {
     if (this.state.newTodo === '') return;
-    this.props.add(this.state.newTodo);
+    this.props.addTodo(this.state.newTodo);
     this.setState( { newTodo: '' });
   }
 
@@ -28,10 +30,16 @@ class TodoForm extends Component {
           onChange={this.handleChange.bind(this)}
           placeholder="input here..."
         />
-        <button onClick={this.addTodo.bind(this)}>ADD</button>
+        <button onClick={this.clickAddTodo.bind(this)}>ADD</button>
       </div>
     )
   }
 }
 
-export default TodoForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (text) => dispatch(addTodo(text)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(TodoForm);
